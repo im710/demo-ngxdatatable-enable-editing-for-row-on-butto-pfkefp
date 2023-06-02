@@ -1,0 +1,92 @@
+<ngx-datatable
+    #table
+    class='material striped'
+    [columnMode]="'flex'"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="'auto'"
+    [limit]="10"
+    [rows]='rows'>
+
+    <!-- Row Panel Template -->
+    <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow>
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+        <div>
+          TEST TEST
+        </div>
+      </ng-template>
+    </ngx-datatable-row-detail>
+    
+    <!-- Column: Editing Mode-->
+    <ngx-datatable-column [flexGrow]="0.5">
+      <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex"
+        ngx-datatable-cell-template>      
+        <!-- Pencil icon -->
+        <i class="fa fa-pencil" 
+           title="Modify"
+           *ngIf="!this.isEditable[rowIndex]" 
+           (click)="this.isEditable[rowIndex]=!this.isEditable[rowIndex]"></i>
+
+        <!-- Save/Delete icons -->
+        <i class="fa fa-floppy-o" 
+          *ngIf="this.isEditable[rowIndex]" 
+          title="Save" 
+          (click)="save(row, rowIndex);"></i>
+        <i class="fa fa-trash-o" 
+          *ngIf="this.isEditable[rowIndex]"
+          title="Delete" 
+          (click)="delete(row,rowIndex)"></i>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <!-- Column: Open Panel-->
+    <ngx-datatable-column [flexGrow]="0.8"
+      [width]="50"
+      [resizeable]="false"
+      [sortable]="false"
+      [draggable]="false"
+      [canAutoResize]="false">
+      <ng-template let-row="row" 
+        let-expanded="expanded" 
+        ngx-datatable-cell-template>
+        <a class="table-icons"
+          [class.datatable-icon-right]="!expanded"
+          [class.datatable-icon-down]="expanded"
+          title="Expand/Collapse Row"
+          (click)="toggleExpandRow(row, expanded)">
+        </a>
+      </ng-template>
+    </ngx-datatable-column>     
+
+    <!-- Other Columns -->
+    <ngx-datatable-column [flexGrow]="1.5" name="Descrizione" prop="descrizione">
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+          <mat-form-field>
+            <input matInput value="descrizione" [(ngModel)]="row.descrizione" [disabled]="!isEditable[rowIndex]">
+          </mat-form-field>
+      </ng-template>
+    </ngx-datatable-column> 
+
+    <ngx-datatable-column [flexGrow]="1.5"name="Indice" prop="indice">
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+          <mat-form-field>
+            <input matInput value="indice" [(ngModel)]="row.indice" [disabled]="!isEditable[rowIndex]">
+          </mat-form-field>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [flexGrow]="1.5" name="TEST" prop="nota" *ngIf="!isEditable[rowIndex]">
+       <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">     
+        	<mat-form-field style="width: 100%;">
+            <mat-select multiple
+              [disabled]="!isEditable[rowIndex]"
+              [(ngModel)]="row.selected"
+              name="nota">
+              <mat-option  
+                *ngFor="let elem of note" [value]="elem.value"> {{elem.label}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+      </ng-template>
+    </ngx-datatable-column>
+
+</ngx-datatable>
