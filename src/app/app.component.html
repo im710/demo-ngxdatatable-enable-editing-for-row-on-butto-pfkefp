@@ -68,7 +68,7 @@
     </ngx-datatable-column> 
 
     <ngx-datatable-column [flexGrow]="1.5"name="Indice" prop="indice">
-      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowI" let-value="value" let-row="row">
           <mat-form-field>
             <input matInput value="indice" [(ngModel)]="row.indice" [disabled]="!isEditable[rowIndex]">
           </mat-form-field>
